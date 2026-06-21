@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="NashrahShaikh.Suite.Api/NashrahShaikh.Suite.Api.csproj" Id="cd230e0d-ffd3-428d-b643-7e4192a3e17e" />
+  <Project Path="NashrahShaikh.Suite.Core/NashrahShaikh.Suite.Domain.csproj" Id="03673db4-3b62-4e95-a8c5-26ca6225e80f" />
+  <Project Path="NashrahShaikh.Suite.Infrastructure/NashrahShaikh.Suite.Infrastructure.csproj" Id="bbb300db-fb00-4488-be75-50f9aa06ccdc" />
+  <Project Path="NashrahShaikh.Suite.Maui/NashrahShaikh.Suite.Maui.csproj" />
+</Solution>

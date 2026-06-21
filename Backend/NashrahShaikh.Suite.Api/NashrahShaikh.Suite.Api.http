@@ -1,0 +1,6 @@
+@NashrahShaikh.Suite.Api_HostAddress = http://localhost:5191
+
+GET {{NashrahShaikh.Suite.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
