@@ -31,7 +31,7 @@ export default function HeroSection() {
                         <Button text="Hire Me" />
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="mt-8 grid grid-cols-3 gap-4">
                         <StatCard 
                             value="7+"
                             title="Projects"
