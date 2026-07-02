@@ -44,5 +44,17 @@ export const skillGroups = [
         "VS Code",
         "IIS"
         ]
+    },
+    {
+    title: "Design",
+    color: "pink",
+    skills: [
+        "UI Design",
+        "UX Design",
+        "Mobile Design",
+        "Dashboard Design",
+        "Design Systems",
+        "Responsive Design"
+    ]
     }
 ]

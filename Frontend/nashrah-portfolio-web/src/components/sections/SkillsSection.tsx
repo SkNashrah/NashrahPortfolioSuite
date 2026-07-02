@@ -10,10 +10,26 @@ export default function SkillsSection() {
                     Technical Skills
                 </h2>
 
-                <div className="grid gap-8 md:grid-cols-2">
+                <div className="grid gap-8 md:grid-cols-3">
                     {skillGroups.map((group) => (
                         <div key={group.title} className="rounded-2xl border border-zinc-800 p-6">
-                            <h3 className="mb-6 text-2xl font-semibold">
+                            <h3 className={`
+                                    mb-6
+                                    text-2xl
+                                    font-semibold
+                                    ${
+                                    group.color === "blue"
+                                        ? "text-blue-400"
+                                        : group.color === "green"
+                                        ? "text-green-400"
+                                        : group.color === "orange"
+                                        ? "text-orange-400"
+                                        : group.color === "purple"
+                                        ? "text-purple-400"
+                                        : "text-pink-400"
+                                    }
+                                `}
+>
                                 {group.title}
                             </h3>
 
@@ -24,6 +40,7 @@ export default function SkillsSection() {
                                 <SkillBadge
                                     key={skill}
                                     skill={skill}
+                                    color={group.color}
                                 />
 
                                 ))}
