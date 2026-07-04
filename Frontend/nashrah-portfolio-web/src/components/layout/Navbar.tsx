@@ -1,9 +1,9 @@
 import {navigationLinks} from "@/constants/navigations"; 
-import link from "next/dist/client/link";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center justify-between px-8 p-4 ">
+    <nav className="flex items-center justify-between px-8 p-4 bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b">
       <div>
         <h1 className="text-xl font-bold">NFS</h1>
 
@@ -12,7 +12,7 @@ export default function Navbar() {
         </p>
       </div>
 
-      <div className="flex gap-6">
+      <div className="flex items-center gap-6">
         {navigationLinks.map((link) => (
           <a
             key={link.path}
@@ -23,6 +23,8 @@ export default function Navbar() {
         ))}
           
       </div>
+
+      <ThemeToggle />
     </nav>
   );
 }

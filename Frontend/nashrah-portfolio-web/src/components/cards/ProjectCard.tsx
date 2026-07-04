@@ -6,8 +6,8 @@ type ProjectCardProps = {
 
 export default function ProjectCard({ title, description, technologies }: ProjectCardProps) {
     return (
-        <div className="rounded-2xl border border-zinc-800 p-6 transition hover:border-blue-500 hover:-traslate-y-1">
-            <div className="mb-4 h-48 rounded-xl bg-zinc-900 flex items-center justify-center">
+        <div className="rounded-2xl border border-zinc-800 p-6 transition hover:border-blue-500 hover:-translate-y-1">
+            <div className="mb-4 h-48 rounded-xl bg-[#221932] flex items-center justify-center">
                 Project Screenshot
             </div>
 
@@ -27,7 +27,7 @@ export default function ProjectCard({ title, description, technologies }: Projec
                     rounded-full
                     bg-blue-500/10
                     border
-                    border-blue-500/20
+                   border-[#722548]/50
                     px-3
                     py-1
                     text-sm

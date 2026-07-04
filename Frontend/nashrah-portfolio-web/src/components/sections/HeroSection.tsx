@@ -49,7 +49,18 @@ export default function HeroSection() {
                 </div>
 
                 <div className="flex items-center justify-center">
-                    <div className="flex h-80 w-80 items-center justify-center rounded-full border border-zinc-700 bg-zinc-900">
+                    <div className="
+                        flex
+                        h-80
+                        w-80
+                        items-center
+                        justify-center
+                        rounded-full
+                        border
+                        border-[#722548]
+                        bg-[#221932]
+                        shadow-[0_0_40px_rgba(114,37,72,0.35)]
+                        ">
                         <span className="text-6xl font-bold">
                             NFS
                         </span>

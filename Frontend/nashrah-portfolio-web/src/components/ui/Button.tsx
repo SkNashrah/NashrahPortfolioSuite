@@ -9,9 +9,9 @@ export default function Button({ text }: ButtonProps) {
         px-4
         py-2
         rounded-lg
-        bg-blue-600
+       bg-[#722548]
+       hover:bg-[#8A3158]
         text-white
-        hover:bg-blue-700
         transition
       "
     >
