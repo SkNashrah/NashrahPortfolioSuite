@@ -1,6 +1,5 @@
 import {skillGroups} from "@/constants/skills";
 import SkillBadge from "@/components/ui/SkillBadge";
-import { group } from "console";
 
 export default function SkillsSection() {
     return (
@@ -12,7 +11,8 @@ export default function SkillsSection() {
 
                 <div className="grid gap-8 md:grid-cols-3">
                     {skillGroups.map((group) => (
-                        <div key={group.title} className="rounded-2xl border border-zinc-800 p-6">
+                        <div key={group.title} className="rounded-2xl border border-[#3A284A]
+                        bg-[#221932]/30 p-6">
                             <h3 className={`
                                     mb-6
                                     text-2xl
