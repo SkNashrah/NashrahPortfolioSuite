@@ -18,7 +18,7 @@ export default function Navbar() {
       "
       style={{
         backgroundColor: "var(--surface)",
-        borderColor: "rgba(255,255,255,0.08)",
+        borderColor: "var(--text)",
       }}
     >
       <div>
