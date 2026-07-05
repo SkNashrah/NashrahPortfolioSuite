@@ -1,18 +1,27 @@
 @import "tailwindcss";
 
 :root {
+  --background: #0B0914;
+  --surface: #141024;
+  --card: #1B1630;
 
-  --background: #060407;
+  --primary: #8A3158;
+  --secondary: #A78BFA;
 
-  --card: #221932;
+  --text: #F5F3FF;
+  --muted: #B6AFC7;
+}
 
-  --primary: #722548;
+.light {
+  --background: #FFF9FC;
+  --surface: #FFFFFF;
+  --card: #F5EDF7;
 
-  --secondary: #9882B9;
+  --primary: #8A3158;
+  --secondary: #7C6CF3;
 
-  --text: #F5F5F5;
-
-  --text-muted: #B8B0C7;
+  --text: #1B1830;
+  --muted: #625F78;
 }
 
 .dark {
@@ -33,13 +42,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
@@ -73,4 +75,36 @@ body {
 
 .border-card {
   border-color: rgba(255,255,255,0.08);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.bg-surface {
+  background-color: var(--surface);
+}
+
+.bg-card {
+  background-color: var(--card);
+}
+
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.border-card {
+  border-color: rgba(255,255,255,.08);
 }

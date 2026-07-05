@@ -3,18 +3,47 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 
 export default function Navbar() {
   return (
-    <nav className="flex items-center justify-between px-8 p-4 bg-surface/80 backdrop-blur-md sticky top-0 z-50 border-b">
+    <nav
+      className="
+        sticky
+        top-0
+        z-50
+        flex
+        items-center
+        justify-between
+        px-8
+        py-4
+        border-b
+        backdrop-blur-md
+      "
+      style={{
+        backgroundColor: "var(--surface)",
+        borderColor: "rgba(255,255,255,0.08)",
+      }}
+    >
       <div>
-        <h1 className="text-xl font-bold">NFS</h1>
+        <h1
+          className="text-2xl font-bold"
+          style={{ color: "var(--text)" }}
+        >
+          NFS
+        </h1>
 
-        <p className="text-xs text-gray-500">
-          Software Developer ● UI/UX Designer
+        <p
+          className="text-xs"
+          style={{ color: "var(--primary)" }}
+        >
+          Software Developer • UI/UX Designer
         </p>
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-8" style={{
+        color: "var(--muted)"
+      }}>
         {navigationLinks.map((link) => (
           <a
+            className="transition hover:opacity-80"
+            style={{ color: "var(--muted)" }}
             key={link.path}
             href={link.path}
           >
