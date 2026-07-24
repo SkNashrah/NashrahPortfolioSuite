@@ -1,4 +1,5 @@
-import {skillGroups} from "@/constants/skills";
+import { skillGroups } from "@/constants/skills";
+import { categoryColors } from "@/constants/skillColors";
 import SkillBadge from "@/components/ui/SkillBadge";
 
 export default function SkillsSection() {
@@ -11,40 +12,30 @@ export default function SkillsSection() {
 
                 <div className="grid gap-8 md:grid-cols-3">
                     {skillGroups.map((group) => (
-                        <div key={group.title} className="rounded-2xl border border-[#3A284A]
-                        bg-[#221932]/30 p-6">
-                            <h3 className={`
-                                    mb-6
-                                    text-2xl
-                                    font-semibold
-                                    ${
-                                    group.color === "blue"
-                                        ? "text-blue-400"
-                                        : group.color === "green"
-                                        ? "text-green-400"
-                                        : group.color === "orange"
-                                        ? "text-orange-400"
-                                        : group.color === "purple"
-                                        ? "text-purple-400"
-                                        : "text-pink-400"
-                                    }
-                                `}
->
+                        <div
+                            key={group.title}
+                            className="rounded-2xl border p-6"
+                            style={{
+                                borderColor: "var(--border)",
+                                backgroundColor: "var(--card)",
+                            }}
+                        >
+                            <h3
+                                className="mb-6 text-2xl font-semibold"
+                                style={{ color: categoryColors[group.color] ?? "var(--primary)" }}
+                            >
                                 {group.title}
                             </h3>
 
                             <div className="flex flex-wrap gap-3">
-
                                 {group.skills.map((skill) => (
-
-                                <SkillBadge
-                                    key={skill}
-                                    skill={skill}
-                                    color={group.color}
-                                />
-
+                                    <SkillBadge
+                                        key={skill}
+                                        skill={skill}
+                                        color={group.color}
+                                    />
                                 ))}
-                           </div>
+                            </div>
                         </div>
                     ))}
                 </div>
