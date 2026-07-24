@@ -1,110 +1,87 @@
 @import "tailwindcss";
 
+/* ==========================================================
+   Design tokens — Plum & rose gold
+   Light = soft purple forward. Dark = plum/wine forward.
+   Same two hues, roles swapped between themes. Accent (rose
+   gold/copper) stays constant across both — the one thread
+   that ties light and dark together as one brand.
+   ========================================================== */
+
 :root {
-  --background: #0B0914;
-  --surface: #141024;
-  --card: #1B1630;
-
-  --primary: #8A3158;
-  --secondary: #A78BFA;
-
-  --text: #F5F3FF;
-  --muted: #B6AFC7;
-}
-
-.light {
-  --background: #FFF9FC;
+  --background: #FBF8FF;
   --surface: #FFFFFF;
-  --card: #F5EDF7;
+  --card: #F4EEFB;
 
-  --primary: #8A3158;
-  --secondary: #7C6CF3;
+  --primary: #8A6BC4;
+  --secondary: #C97B96;
+  --accent: #C08B6F;
 
-  --text: #1B1830;
-  --muted: #625F78;
+  --success: #6B9080;
+  --warning: #D6A34D;
+  --danger: #C4677A;
+
+  --text: #241A2E;
+  --muted: #756B87;
+
+  --border: rgba(36, 26, 46, 0.08);
 }
 
 .dark {
+  --background: #100B18;
+  --surface: #1C1526;
+  --card: #251A32;
 
-  --background: #0F1021;
-  --surface: #18192E;
-  --card: #20223B;
+  --primary: #8B3A5C;
+  --secondary: #B98BD9;
+  --accent: #C08B6F;
 
-  --primary: #7C6CF3;
-  --secondary: #D16BA5;
+  --success: #8FB39C;
+  --warning: #E0B563;
+  --danger: #D17868;
 
-  --text: #F5F3FF;
-  --muted: #A5A3B8;
+  --text: #F5F1F7;
+  --muted: #B3A8C2;
+
+  --border: rgba(245, 241, 247, 0.08);
 }
-/* 
+
+/* Tailwind v4: @theme inline keeps these reading the CSS variable
+   at runtime, so bg-primary / text-accent / border-danger etc.
+   switch correctly when .dark is toggled. */
 @theme inline {
   --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-card: var(--card);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-} */
+}
 
 body {
   background: var(--background);
   color: var(--text);
-
-  transition:
-    background 0.3s ease,
-    color 0.3s ease;
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-.bg-surface {
-  background: var(--surface);
+::selection {
+  background: var(--primary);
+  color: #FFFFFF;
 }
 
-.bg-card {
-  background: var(--card);
-}
-
-.text-primary {
-  color: var(--primary);
-}
-
-.text-secondary {
-  color: var(--secondary);
-}
-
-.text-muted {
-  color: var(--muted);
-}
-
-.border-card {
-  border-color: rgba(255,255,255,0.08);
-}
-
-.bg-background {
-  background-color: var(--background);
-}
-
-.bg-surface {
-  background-color: var(--surface);
-}
-
-.bg-card {
-  background-color: var(--card);
-}
-
-.bg-primary {
-  background-color: var(--primary);
-}
-
-.text-primary {
-  color: var(--primary);
-}
-
-.text-secondary {
-  color: var(--secondary);
-}
-
-.text-muted {
-  color: var(--muted);
-}
-
-.border-card {
-  border-color: rgba(255,255,255,.08);
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
