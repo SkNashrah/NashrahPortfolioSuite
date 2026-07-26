@@ -1,0 +1,77 @@
+// type AuthResponse = {
+//   accessToken: string;
+//   refreshToken: string;
+//   accessTokenExpiresAt: string;
+//   username: string;
+//   role: string;
+// };
+
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+// export async function login(username: string, password: string): Promise<AuthResponse> {
+//   const res = await fetch(`${API_URL}/api/auth/login`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ username, password }),
+//   });
+
+//   if (!res.ok) throw new Error("Invalid username or password");
+
+//   const data: AuthResponse = await res.json();
+//   localStorage.setItem("accessToken", data.accessToken);
+//   localStorage.setItem("refreshToken", data.refreshToken);
+//   return data;
+// }
+
+// export function logout() {
+//   localStorage.removeItem("accessToken");
+//   localStorage.removeItem("refreshToken");
+// }
+
+// export function getAccessToken(): string | null {
+//   return localStorage.getItem("accessToken");
+// }
+
+// export function isLoggedIn(): boolean {
+//   return !!getAccessToken();
+// }
+
+// export async function apiFetch(path: string, options: RequestInit = {}) {
+//   const token = getAccessToken();
+
+//   const res = await fetch(`${API_URL}${path}`, {
+//     ...options,
+//     headers: { ...options.headers, ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+//   });
+
+//   if (res.status !== 401) return res;
+
+//   const refreshed = await tryRefresh();
+//   if (!refreshed) return res;
+
+//   return fetch(`${API_URL}${path}`, {
+//     ...options,
+//     headers: { ...options.headers, Authorization: `Bearer ${getAccessToken()}` },
+//   });
+// }
+
+// async function tryRefresh(): Promise<boolean> {
+//   const refreshToken = localStorage.getItem("refreshToken");
+//   if (!refreshToken) return false;
+
+//   const res = await fetch(`${API_URL}/api/auth/refresh`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ refreshToken }),
+//   });
+
+//   if (!res.ok) {
+//     logout();
+//     return false;
+//   }
+
+//   const data: AuthResponse = await res.json();
+//   localStorage.setItem("accessToken", data.accessToken);
+//   localStorage.setItem("refreshToken", data.refreshToken);
+//   return true;
+// }
