@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace NashrahShaikh.Suite.Domain.Entities;
 
-namespace NashrahShaikh.Suite.Domain.Entities
+// Composite key (ProjectId + SkillId) configured in OnModelCreating.
+public class ProjectSkill
 {
-    internal class ProjectSkill
-    {
-    }
+    public int ProjectId { get; set; }
+    public Project Project { get; set; } = default!;
+
+    public int SkillId { get; set; }
+    public Skill Skill { get; set; } = default!;
+
+    public int DisplayOrder { get; set; }
 }
