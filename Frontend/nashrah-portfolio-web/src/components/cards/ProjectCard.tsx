@@ -6,40 +6,42 @@ type ProjectCardProps = {
 
 export default function ProjectCard({ title, description, technologies }: ProjectCardProps) {
     return (
-        <div className="rounded-2xl border border-zinc-800 p-6 transition hover:border-blue-500 hover:-translate-y-1">
-            <div className="mb-4 h-48 rounded-xl bg-[#221932] flex items-center justify-center">
+        <div className="rounded-2xl bg-surface p-6 shadow-card transition hover:-translate-y-1">
+            <div
+                className="mb-4 flex h-48 items-center justify-center rounded-xl"
+                style={{ backgroundColor: "var(--card)", color: "var(--muted)" }}
+            >
                 Project Screenshot
             </div>
 
-            <h3 className="mb-3 text-2xl font-bold">
+            <h3 className="mb-3 text-2xl font-bold" style={{ color: "var(--text)" }}>
                 {title}
             </h3>
 
-            <p className="mb-4 text-gray-400">
+            <p className="mb-4" style={{ color: "var(--muted)" }}>
                 {description}
             </p>
 
-             <div className="mb-6 flex flex-wrap gap-2">
+            <div className="mb-6 flex flex-wrap gap-2">
                 {technologies.map((tech) => (
-                <span
-                    key={tech}
-                    className="
-                    rounded-full
-                    bg-blue-500/10
-                    border
-                   border-[#722548]/50
-                    px-3
-                    py-1
-                    text-sm
-                    text-blue-300
-                    "
-                >
-                    {tech}
-                </span>
+                    <span
+                        key={tech}
+                        className="rounded-full border px-3 py-1 text-sm"
+                        style={{
+                            borderColor: "color-mix(in srgb, var(--primary) 40%, transparent)",
+                            backgroundColor: "color-mix(in srgb, var(--primary) 10%, transparent)",
+                            color: "var(--primary)",
+                        }}
+                    >
+                        {tech}
+                    </span>
                 ))}
-
             </div>
-            <button className="rounded-lg bg-blue-600 px-4 py-2 font-medium hover:bg-blue-500">
+
+            <button
+                className="rounded-full px-4 py-2 font-medium text-white transition hover:opacity-90"
+                style={{ backgroundColor: "var(--primary)" }}
+            >
                 View Details
             </button>
         </div>

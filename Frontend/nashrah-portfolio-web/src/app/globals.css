@@ -4,8 +4,7 @@
    Design tokens — Plum & rose gold
    Light = soft purple forward. Dark = plum/wine forward.
    Same two hues, roles swapped between themes. Accent (rose
-   gold/copper) stays constant across both — the one thread
-   that ties light and dark together as one brand.
+   gold/copper) stays constant across both.
    ========================================================== */
 
 :root {
@@ -25,6 +24,7 @@
   --muted: #756B87;
 
   --border: rgba(36, 26, 46, 0.08);
+  --card-shadow: 0 10px 28px rgba(36, 26, 46, 0.10);
 }
 
 .dark {
@@ -44,11 +44,9 @@
   --muted: #B3A8C2;
 
   --border: rgba(245, 241, 247, 0.08);
+  --card-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
 }
 
-/* Tailwind v4: @theme inline keeps these reading the CSS variable
-   at runtime, so bg-primary / text-accent / border-danger etc.
-   switch correctly when .dark is toggled. */
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
@@ -62,9 +60,11 @@
   --color-text: var(--text);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --shadow-card: var(--card-shadow);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-fraunces);
 }
 
 body {
@@ -72,6 +72,12 @@ body {
   color: var(--text);
   font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
   transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Headings get the serif pairing everywhere, automatically —
+   no need to add a class to every h1/h2/h3 across every section. */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif), Georgia, serif;
 }
 
 ::selection {

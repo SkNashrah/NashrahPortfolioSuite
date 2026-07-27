@@ -14,11 +14,7 @@ export default function SkillsSection() {
                     {skillGroups.map((group) => (
                         <div
                             key={group.title}
-                            className="rounded-2xl border p-6"
-                            style={{
-                                borderColor: "var(--border)",
-                                backgroundColor: "var(--card)",
-                            }}
+                            className="rounded-2xl bg-surface p-6 shadow-card"
                         >
                             <h3
                                 className="mb-6 text-2xl font-semibold"

@@ -17,35 +17,19 @@ export default function FeaturedProjectsSection() {
 
         {/* AVR */}
 
-        <div
-          className="
-          mb-10
-          rounded-3xl
-          border
-          border-blue-500/20
-          p-8
-          "
-        >
+        <div className="mb-10 rounded-3xl bg-surface p-8 shadow-card">
           <div
-            className="
-            mb-6
-            h-72
-            rounded-xl
-            bg-zinc-900
-            flex
-            items-center
-            justify-center
-            text-2xl
-            "
+            className="mb-6 flex h-72 items-center justify-center rounded-xl text-2xl"
+            style={{ backgroundColor: "var(--card)", color: "var(--muted)" }}
           >
             AVR Screenshot
           </div>
 
-          <h3 className="mb-4 text-3xl font-bold">
+          <h3 className="mb-4 text-3xl font-bold" style={{ color: "var(--text)" }}>
             {featured.title}
           </h3>
 
-          <p className="mb-6 text-zinc-400">
+          <p className="mb-6" style={{ color: "var(--muted)" }}>
             {featured.description}
           </p>
 
@@ -54,15 +38,12 @@ export default function FeaturedProjectsSection() {
             {featured.technologies.map((tech) => (
               <span
                 key={tech}
-                className="
-                rounded-full
-                bg-blue-500/10
-                border
-                border-blue-500/20
-                px-3
-                py-1
-                text-blue-300
-                "
+                className="rounded-full border px-3 py-1"
+                style={{
+                  borderColor: "color-mix(in srgb, var(--primary) 40%, transparent)",
+                  backgroundColor: "color-mix(in srgb, var(--primary) 10%, transparent)",
+                  color: "var(--primary)",
+                }}
               >
                 {tech}
               </span>
