@@ -3,582 +3,512 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio Theme Palette Picker</title>
+  <title>Final Decision — Nashrah Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background: #0a0a0e; color: #e0e0e8; min-height: 100vh; padding: 2.5rem 1.2rem 6rem; }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #0d0d0f;
-      color: #f0f0f4;
-      min-height: 100vh;
-      padding: 2rem 1rem 4rem;
-    }
+    .page-header { text-align: center; max-width: 680px; margin: 0 auto 3rem; }
+    .page-header h1 { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 0.6rem; }
+    .page-header h1 span { background: linear-gradient(135deg, #B98BD9, #C97B96, #C08B6F); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .page-header p { color: #555; font-size: 0.9rem; line-height: 1.7; }
 
-    /* ── Header ── */
-    .header {
-      text-align: center;
-      margin-bottom: 3rem;
-    }
-    .header h1 {
-      font-family: 'Fraunces', serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 600;
-      background: linear-gradient(135deg, #c084fc, #fb7185, #f59e0b);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.5rem;
-    }
-    .header p {
-      color: #888;
-      font-size: 0.95rem;
-      letter-spacing: 0.02em;
-    }
+    /* Section label */
+    .sec { display: flex; align-items: center; gap: 0.8rem; max-width: 1300px; margin: 2.5rem auto 1.2rem; }
+    .sec::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.07); }
+    .sec h2 { font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #444; font-weight: 600; white-space: nowrap; }
+    .sec-num { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; color: #888; flex-shrink: 0; }
 
-    /* ── Mode Toggle ── */
-    .mode-toggle-row {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 2.5rem;
+    /* ══ PART 1: Palette text compare ══ */
+    .text-compare-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1rem; max-width: 1300px; margin: 0 auto;
     }
-    .mode-btn {
-      padding: 0.45rem 1.2rem;
-      border-radius: 999px;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      background: transparent;
-      color: #aaa;
-      font-size: 0.82rem;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      transition: all 0.2s;
-      letter-spacing: 0.04em;
-    }
-    .mode-btn.active {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.35);
-      color: #fff;
-    }
+    @media(max-width: 800px) { .text-compare-grid { grid-template-columns: 1fr; } }
 
-    /* ── Grid ── */
-    .palettes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 1.5rem;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    /* ── Palette Card ── */
-    .palette-card {
-      border-radius: 20px;
-      border: 2px solid rgba(255,255,255,0.06);
-      overflow: hidden;
-      cursor: pointer;
+    .text-card {
+      border-radius: 18px; border: 2px solid rgba(255,255,255,0.07);
+      overflow: hidden; cursor: pointer; background: #111116;
       transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), border-color 0.25s, box-shadow 0.25s;
-      background: #18181c;
       position: relative;
     }
-    .palette-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(255,255,255,0.18);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    }
-    .palette-card.selected {
-      border-color: rgba(255,255,255,0.55);
-      box-shadow: 0 0 0 4px rgba(255,255,255,0.08), 0 20px 60px rgba(0,0,0,0.6);
-    }
-    .palette-card.selected::after {
-      content: '✓  Selected';
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 999px;
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: #fff;
-      padding: 0.3rem 0.8rem;
-      z-index: 10;
-    }
+    .text-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.18); }
+    .text-card.chosen { border-color: rgba(255,255,255,0.5); box-shadow: 0 0 0 4px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.5); transform: translateY(-4px); }
+    .text-card .chosen-badge { position: absolute; top: 12px; right: 12px; font-size: 0.62rem; padding: 0.22rem 0.65rem; border-radius: 999px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; opacity: 0; transition: opacity 0.2s; z-index: 10; }
+    .text-card.chosen .chosen-badge { opacity: 1; }
 
-    /* ── UI Mockup Preview ── */
-    .mockup {
-      padding: 1.5rem;
-      border-radius: 14px;
-      margin: 0.75rem;
-      font-size: 0.78rem;
+    .tc-preview {
+      padding: 1.4rem;
+      min-height: 260px;
       position: relative;
       overflow: hidden;
-      min-height: 200px;
     }
-    .mockup-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1.2rem;
-    }
-    .mockup-logo {
-      font-family: 'Fraunces', serif;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-    .mockup-nav-links {
-      display: flex;
-      gap: 0.8rem;
-      font-size: 0.7rem;
-      opacity: 0.6;
-    }
-    .mockup-hero {
-      margin-bottom: 1rem;
-    }
-    .mockup-hero h2 {
-      font-family: 'Fraunces', serif;
-      font-size: 1.3rem;
-      font-weight: 600;
-      line-height: 1.3;
-      margin-bottom: 0.4rem;
-    }
-    .mockup-hero p {
-      font-size: 0.7rem;
-      opacity: 0.6;
-      line-height: 1.6;
-      max-width: 280px;
-    }
-    .mockup-btns {
-      display: flex;
-      gap: 0.5rem;
-      margin: 0.8rem 0;
-    }
-    .mockup-btn-primary {
-      padding: 0.4rem 1rem;
-      border-radius: 8px;
-      border: none;
-      font-size: 0.7rem;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      cursor: default;
-    }
-    .mockup-btn-outline {
-      padding: 0.4rem 1rem;
-      border-radius: 8px;
-      border: 1.5px solid;
-      font-size: 0.7rem;
-      font-weight: 600;
-      background: transparent;
-      font-family: 'Inter', sans-serif;
-      cursor: default;
-    }
-    .mockup-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.35rem;
-      margin-top: 0.6rem;
-    }
-    .mockup-pill {
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.63rem;
-      font-weight: 500;
-      font-family: 'JetBrains Mono', monospace;
-    }
-    .mockup-card-row {
-      display: flex;
-      gap: 0.5rem;
-      margin-top: 0.9rem;
-    }
-    .mockup-mini-card {
-      flex: 1;
-      border-radius: 10px;
-      padding: 0.6rem 0.7rem;
-      font-size: 0.65rem;
-    }
-    .mockup-mini-card .label { opacity: 0.5; font-size: 0.6rem; margin-bottom: 0.2rem; }
-    .mockup-mini-card .val { font-weight: 600; font-size: 0.8rem; }
+    .tc-label { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.9rem; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+    .tc-name { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 600; line-height: 1.2; margin-bottom: 0.4rem; }
+    .tc-body { font-size: 0.72rem; line-height: 1.7; margin-bottom: 0.8rem; }
+    .tc-muted { font-size: 0.65rem; line-height: 1.6; margin-bottom: 0.9rem; }
+    .tc-pills { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.9rem; }
+    .tc-pill { padding: 0.22rem 0.6rem; border-radius: 999px; font-size: 0.62rem; font-weight: 500; font-family: 'JetBrains Mono', monospace; }
+    .tc-code-block { border-radius: 8px; padding: 0.6rem 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; line-height: 1.8; }
 
-    /* ── Swatches Section ── */
-    .swatches-section {
-      padding: 1rem 1rem 0.5rem;
-    }
-    .swatches-label {
-      font-size: 0.68rem;
-      letter-spacing: 0.1em;
-      color: #666;
-      text-transform: uppercase;
-      margin-bottom: 0.7rem;
-      font-weight: 500;
-    }
-    .swatches-row {
-      display: flex;
-      gap: 0.4rem;
-      margin-bottom: 0.6rem;
-      align-items: center;
-    }
-    .swatch {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      position: relative;
-      flex-shrink: 0;
-      transition: transform 0.15s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
-    }
-    .swatch:hover { transform: scale(1.15); }
-    .swatch-group {
-      flex: 1;
-    }
-    .swatch-name {
-      font-size: 0.62rem;
-      color: #555;
-      margin-left: 0.15rem;
-    }
-    .swatch-hex {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.62rem;
-      color: #666;
-    }
+    .tc-footer { padding: 0.9rem 1.2rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .tc-title { font-weight: 700; font-size: 0.88rem; color: #eee; }
+    .tc-sub { font-size: 0.65rem; color: #555; margin-top: 0.1rem; }
+    .tc-btn { padding: 0.4rem 1rem; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: #bbb; font-size: 0.75rem; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .tc-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .text-card.chosen .tc-btn { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); color: #fff; }
 
-    /* ── Card Footer ── */
-    .card-footer {
-      padding: 0.7rem 1rem 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* ══ PART 2: UI Style compare ══ */
+    .style-compare-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1rem; max-width: 1300px; margin: 0 auto;
     }
-    .card-title {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: #eee;
-    }
-    .card-tag {
-      font-size: 0.65rem;
-      color: #666;
-      font-weight: 400;
-    }
-    .select-btn {
-      padding: 0.4rem 1rem;
-      border-radius: 8px;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      background: rgba(255,255,255,0.05);
-      color: #ccc;
-      font-size: 0.75rem;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-weight: 500;
-    }
-    .select-btn:hover {
-      background: rgba(255,255,255,0.12);
-      border-color: rgba(255,255,255,0.3);
-      color: #fff;
-    }
-    .palette-card.selected .select-btn {
-      background: rgba(255,255,255,0.15);
-      border-color: rgba(255,255,255,0.4);
-      color: #fff;
-    }
+    @media(max-width: 800px) { .style-compare-grid { grid-template-columns: 1fr; } }
 
-    /* ── Divider ── */
-    .swatches-divider { border: none; border-top: 1px solid rgba(255,255,255,0.06); margin: 0.5rem 0; }
+    .style-col { border-radius: 18px; border: 2px solid rgba(255,255,255,0.07); overflow: hidden; cursor: pointer; background: #111116; transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), border-color 0.25s, box-shadow 0.25s; position: relative; }
+    .style-col:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); }
+    .style-col.chosen { border-color: rgba(255,255,255,0.5); box-shadow: 0 0 0 4px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.5); transform: translateY(-4px); }
+    .style-col .chosen-badge { position: absolute; top: 12px; right: 12px; font-size: 0.62rem; padding: 0.22rem 0.65rem; border-radius: 999px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2); color: #fff; opacity: 0; transition: opacity 0.2s; z-index: 10; }
+    .style-col.chosen .chosen-badge { opacity: 1; }
 
-    /* ── Typography Row ── */
-    .type-row {
-      display: flex;
-      gap: 0.6rem;
-      padding: 0 1rem 0.8rem;
-    }
-    .type-chip {
-      font-size: 0.65rem;
-      padding: 0.2rem 0.55rem;
-      border-radius: 6px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #888;
-    }
+    .style-demo { min-height: 280px; position: relative; overflow: hidden; }
+    .style-props { display: flex; gap: 0.4rem; flex-wrap: wrap; padding: 0.6rem 1rem; }
+    .prop-tag { font-size: 0.58rem; padding: 0.15rem 0.5rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.08); color: #555; }
 
-    /* ── Bottom Banner ── */
-    .apply-banner {
-      text-align: center;
-      margin-top: 3rem;
-      padding: 1.5rem;
-      border-radius: 16px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      max-width: 500px;
-      margin-inline: auto;
-    }
-    .apply-banner p { color: #777; font-size: 0.85rem; margin-bottom: 1rem; }
-    #apply-text { color: #ccc; font-weight: 600; }
-    .apply-main-btn {
-      padding: 0.65rem 2rem;
-      border-radius: 10px;
-      border: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      background: linear-gradient(135deg, #c084fc, #fb7185);
-      color: #fff;
-      transition: opacity 0.2s, transform 0.2s;
-    }
-    .apply-main-btn:hover { opacity: 0.85; transform: scale(1.03); }
-    .apply-main-btn:disabled { opacity: 0.35; transform: none; cursor: not-allowed; }
+    .style-footer { padding: 0.9rem 1.2rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .style-title { font-weight: 700; font-size: 0.95rem; color: #eee; }
+    .style-sub { font-size: 0.65rem; color: #555; margin-top: 0.1rem; }
+    .style-btn { padding: 0.4rem 1rem; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05); color: #bbb; font-size: 0.75rem; font-weight: 600; font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+    .style-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .style-col.chosen .style-btn { background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.4); color: #fff; }
+
+    /* ── NEO style demo ── */
+    .neo-bg { background: #ede8f5; padding: 1.4rem; }
+    .neo-outer { background: #ede8f5; border-radius: 20px; padding: 1.2rem; box-shadow: 10px 10px 24px rgba(0,0,0,0.13), -8px -8px 20px rgba(255,255,255,0.75); }
+    .neo-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .neo-logo { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 600; color: #3d2e5a; }
+    .neo-dots-row { display: flex; gap: 0.3rem; }
+    .neo-dot-sm { width: 7px; height: 7px; border-radius: 50%; }
+    .neo-headline { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: #241A2E; line-height: 1.2; margin-bottom: 0.35rem; }
+    .neo-hl { color: #8A6BC4; }
+    .neo-body { font-size: 0.68rem; color: #7060a0; line-height: 1.6; margin-bottom: 0.8rem; }
+    .neo-btn-row { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
+    .neo-btn { background: #ede8f5; border-radius: 10px; box-shadow: 4px 4px 10px rgba(0,0,0,0.13), -3px -3px 8px rgba(255,255,255,0.75); padding: 0.4rem 0.9rem; font-size: 0.68rem; font-weight: 700; color: #8A6BC4; border: none; cursor: default; font-family: 'Inter', sans-serif; }
+    .neo-btn-filled { background: linear-gradient(135deg, #8A6BC4, #C97B96); border-radius: 10px; padding: 0.4rem 0.9rem; font-size: 0.68rem; font-weight: 700; color: #fff; border: none; cursor: default; font-family: 'Inter', sans-serif; box-shadow: 3px 3px 10px rgba(138,107,196,0.35); }
+    .neo-pill { background: #ede8f5; border-radius: 999px; box-shadow: 3px 3px 7px rgba(0,0,0,0.1), -2px -2px 5px rgba(255,255,255,0.7); padding: 0.18rem 0.55rem; font-size: 0.6rem; font-family: 'JetBrains Mono', monospace; color: #8A6BC4; }
+    .neo-pills-row { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+    .neo-card-row { display: flex; gap: 0.4rem; }
+    .neo-mini { flex: 1; background: #ede8f5; border-radius: 12px; padding: 0.5rem 0.6rem; box-shadow: 5px 5px 12px rgba(0,0,0,0.1), -4px -4px 10px rgba(255,255,255,0.7); }
+    .neo-mini-val { font-size: 0.9rem; font-weight: 700; }
+    .neo-mini-lbl { font-size: 0.57rem; color: #9080b8; margin-top: 0.1rem; }
+
+    /* ── BOLD GRADIENT style demo ── */
+    .bold-bg { background: #0d0818; padding: 1.4rem; position: relative; overflow: hidden; }
+    .bold-glow-1 { position: absolute; top: -40px; right: -40px; width: 200px; height: 200px; border-radius: 50%; background: rgba(139,58,92,0.35); filter: blur(55px); pointer-events: none; }
+    .bold-glow-2 { position: absolute; bottom: -30px; left: -30px; width: 150px; height: 150px; border-radius: 50%; background: rgba(185,139,217,0.25); filter: blur(45px); pointer-events: none; }
+    .bold-glow-3 { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 100px; height: 100px; border-radius: 50%; background: rgba(192,139,111,0.15); filter: blur(35px); pointer-events: none; }
+    .bold-content { position: relative; z-index: 1; }
+    .bold-eyebrow { font-size: 0.6rem; letter-spacing: 0.12em; color: #C08B6F; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-bottom: 0.4rem; }
+    .bold-h { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 600; line-height: 1.15; margin-bottom: 0.45rem; background: linear-gradient(135deg, #fff 20%, #C97B96 80%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .bold-p { font-size: 0.68rem; color: #9880b8; line-height: 1.6; margin-bottom: 0.8rem; }
+    .bold-btns { display: flex; gap: 0.5rem; margin-bottom: 0.9rem; }
+    .bold-btn-main { padding: 0.42rem 1rem; border-radius: 9px; border: none; background: linear-gradient(135deg, #8B3A5C, #C97B96); color: #fff; font-size: 0.7rem; font-weight: 700; cursor: default; font-family: 'Inter', sans-serif; box-shadow: 0 4px 20px rgba(139,58,92,0.45); }
+    .bold-btn-ghost { padding: 0.42rem 1rem; border-radius: 9px; border: 1.5px solid rgba(185,139,217,0.3); color: #B98BD9; background: transparent; font-size: 0.7rem; font-weight: 600; cursor: default; font-family: 'Inter', sans-serif; }
+    .bold-pills-row { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .bold-pill { padding: 0.2rem 0.55rem; border-radius: 999px; font-size: 0.6rem; font-family: 'JetBrains Mono', monospace; }
+    .bold-code { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 9px; padding: 0.6rem 0.8rem; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; line-height: 1.8; }
+    .bold-cards { display: flex; gap: 0.4rem; }
+    .bold-card { flex: 1; border-radius: 10px; padding: 0.5rem 0.6rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); }
+    .bold-card-val { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.1rem; }
+    .bold-card-lbl { font-size: 0.57rem; color: #6a5a8a; }
+
+    /* ── GLASS style demo ── */
+    .glass-bg { background: linear-gradient(145deg, #180e2a 0%, #0e1a30 50%, #1a0e24 100%); padding: 1.4rem; position: relative; overflow: hidden; }
+    .glass-orb1 { position: absolute; top: -40px; right: -20px; width: 180px; height: 180px; border-radius: 50%; background: rgba(139,58,92,0.5); filter: blur(45px); pointer-events: none; }
+    .glass-orb2 { position: absolute; bottom: -30px; left: -20px; width: 140px; height: 140px; border-radius: 50%; background: rgba(185,139,217,0.4); filter: blur(35px); pointer-events: none; }
+    .glass-orb3 { position: absolute; top: 40%; right: 20%; width: 80px; height: 80px; border-radius: 50%; background: rgba(192,139,111,0.3); filter: blur(25px); pointer-events: none; }
+    .glass-content { position: relative; z-index: 1; }
+    .glass-panel { background: rgba(255,255,255,0.07); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; padding: 1rem; margin-bottom: 0.7rem; }
+    .glass-panel-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+    .glass-logo { font-family: 'Fraunces', serif; font-size: 0.9rem; color: #fff; font-weight: 600; }
+    .glass-status { font-size: 0.58rem; font-family: 'JetBrains Mono', monospace; color: #8effc8; background: rgba(142,255,200,0.1); border: 1px solid rgba(142,255,200,0.2); padding: 0.15rem 0.45rem; border-radius: 5px; }
+    .glass-h { font-family: 'Fraunces', serif; font-size: 1.2rem; color: #fff; font-weight: 600; line-height: 1.2; margin-bottom: 0.3rem; }
+    .glass-h span { background: linear-gradient(135deg, #C97B96, #B98BD9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .glass-p { font-size: 0.65rem; color: rgba(255,255,255,0.5); line-height: 1.55; margin-bottom: 0.6rem; }
+    .glass-btns { display: flex; gap: 0.4rem; }
+    .glass-btn-main { padding: 0.38rem 0.9rem; border-radius: 8px; background: rgba(139,58,92,0.6); border: 1px solid rgba(201,123,150,0.4); color: #fff; font-size: 0.68rem; font-weight: 600; cursor: default; }
+    .glass-btn-ghost { padding: 0.38rem 0.9rem; border-radius: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); font-size: 0.68rem; font-weight: 600; cursor: default; }
+    .glass-mini-row { display: flex; gap: 0.45rem; }
+    .glass-mini { flex: 1; background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 0.5rem 0.6rem; }
+    .glass-mini-val { font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 0.1rem; }
+    .glass-mini-lbl { font-size: 0.57rem; color: rgba(255,255,255,0.4); }
+    .glass-pills { display: flex; gap: 0.3rem; flex-wrap: wrap; }
+    .glass-pill { padding: 0.18rem 0.5rem; border-radius: 999px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); font-size: 0.58rem; font-family: 'JetBrains Mono', monospace; }
+
+    /* ══ RESULT ══ */
+    .result-area { max-width: 700px; margin: 3rem auto 0; }
+    .result-box { padding: 1.8rem; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); text-align: center; }
+    .result-box h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; color: #fff; margin-bottom: 0.5rem; }
+    .result-box p { color: #555; font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .picks-row { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .pick-chip { display: flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-size: 0.78rem; color: #ccc; transition: all 0.3s; }
+    .pick-chip.filled { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.18); color: #eee; }
+    .pick-dot { width: 9px; height: 9px; border-radius: 50%; background: #333; transition: background 0.3s; flex-shrink: 0; }
+    .confirm-btn { padding: 0.75rem 2.5rem; border-radius: 12px; border: none; font-size: 0.95rem; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer; background: linear-gradient(135deg, #8A6BC4, #C97B96); color: #fff; transition: opacity 0.2s, transform 0.2s; }
+    .confirm-btn:hover:not(:disabled) { opacity: 0.85; transform: scale(1.03); }
+    .confirm-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .output-box { margin-top: 1.2rem; padding: 1rem 1.2rem; border-radius: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); text-align: left; font-size: 0.8rem; color: #aaa; line-height: 1.8; display: none; }
+    .output-box.show { display: block; }
+    .output-box strong { color: #eee; }
+    .output-box code { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #B98BD9; background: rgba(185,139,217,0.1); padding: 0.1rem 0.4rem; border-radius: 4px; }
   </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>Portfolio Theme Palettes</h1>
-  <p>Click any theme to preview & select — live CSS rendered, no images</p>
+<div class="page-header">
+  <h1>Your <span>Final Decision</span></h1>
+  <p>You love Plum & Rose Gold. Let's fix the text readability — then pick your UI style.<br/>Both solved on one page.</p>
 </div>
 
-<div class="mode-toggle-row">
-  <button class="mode-btn active" onclick="setMode('dark')" id="btn-dark">● Dark Mode</button>
-  <button class="mode-btn" onclick="setMode('light')" id="btn-light">○ Light Mode</button>
+<!-- ══ STEP 1: Text Readability ══ -->
+<div class="sec"><div class="sec-num">1</div><h2>Palette Text Readability — Pick Your Preferred Version</h2></div>
+
+<div class="text-compare-grid" id="text-grid">
+
+  <!-- Card A: Original Plum -->
+  <div class="text-card" data-palette="plum-original" data-palette-name="Plum Original">
+    <div class="chosen-badge">✓ Chosen</div>
+    <div class="tc-preview" style="background:#100B18">
+      <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:#8B3A5C;opacity:0.15;filter:blur(35px)"></div>
+      <div class="tc-label" style="color:#C08B6F">// Original Plum</div>
+      <div class="tc-name" style="background:linear-gradient(135deg,#8B3A5C,#B98BD9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Full-Stack Developer</div>
+      <div class="tc-body" style="color:#F5F1F7">Building beautiful web experiences with Next.js, React &amp; Node. Focused on performance and detail.</div>
+      <div class="tc-muted" style="color:#B3A8C2">Warm purple muted — has a soft lilac tint that feels cozy but slightly less sharp at small sizes.</div>
+      <div class="tc-pills">
+        <span class="tc-pill" style="background:rgba(139,58,92,0.2);color:#C97B96;border:1px solid rgba(201,123,150,0.3)">TypeScript</span>
+        <span class="tc-pill" style="background:rgba(185,139,217,0.15);color:#B98BD9;border:1px solid rgba(185,139,217,0.3)">React</span>
+        <span class="tc-pill" style="background:rgba(192,139,111,0.15);color:#C08B6F;border:1px solid rgba(192,139,111,0.3)">Next.js</span>
+      </div>
+      <div class="tc-code-block" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08)">
+        <span style="color:#B98BD9">const</span> <span style="color:#F5F1F7">portfolio</span> <span style="color:#B3A8C2">=</span> <span style="color:#C97B96">'nashrah.dev'</span><span style="color:#B3A8C2">;</span><br/>
+        <span style="color:#B98BD9">export</span> <span style="color:#B3A8C2">default</span> <span style="color:#C08B6F">Hero</span><span style="color:#B3A8C2">();</span>
+      </div>
+    </div>
+    <div class="tc-footer">
+      <div><div class="tc-title">Original Plum</div><div class="tc-sub">Warm lavender text & muted</div></div>
+      <button class="tc-btn" data-pick="palette">Select</button>
+    </div>
+  </div>
+
+  <!-- Card B: Plum + Sharp Text (RECOMMENDED) -->
+  <div class="text-card" data-palette="plum-sharp" data-palette-name="Plum + Sharp Text ✦">
+    <div class="chosen-badge">✓ Chosen</div>
+    <div class="tc-preview" style="background:#100B18;position:relative">
+      <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:#8B3A5C;opacity:0.15;filter:blur(35px)"></div>
+      <div style="position:absolute;width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#B98BD9,#C97B96);top:12px;right:44px;display:flex;align-items:center;justify-content:center;font-size:0.5rem;color:#fff;font-weight:900">✦</div>
+      <div class="tc-label" style="color:#C08B6F">// Plum + Sharp Text</div>
+      <div class="tc-name" style="background:linear-gradient(135deg,#8B3A5C,#B98BD9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Full-Stack Developer</div>
+      <div class="tc-body" style="color:#F8FAFC">Building beautiful web experiences with Next.js, React &amp; Node. Focused on performance and detail.</div>
+      <div class="tc-muted" style="color:#94A3B8">Clean slate-gray muted — neutral, higher contrast, very easy to read at any size. Typography pops.</div>
+      <div class="tc-pills">
+        <span class="tc-pill" style="background:rgba(139,58,92,0.2);color:#C97B96;border:1px solid rgba(201,123,150,0.3)">TypeScript</span>
+        <span class="tc-pill" style="background:rgba(185,139,217,0.15);color:#B98BD9;border:1px solid rgba(185,139,217,0.3)">React</span>
+        <span class="tc-pill" style="background:rgba(192,139,111,0.15);color:#C08B6F;border:1px solid rgba(192,139,111,0.3)">Next.js</span>
+      </div>
+      <div class="tc-code-block" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08)">
+        <span style="color:#B98BD9">const</span> <span style="color:#F8FAFC">portfolio</span> <span style="color:#94A3B8">=</span> <span style="color:#C97B96">'nashrah.dev'</span><span style="color:#94A3B8">;</span><br/>
+        <span style="color:#B98BD9">export</span> <span style="color:#94A3B8">default</span> <span style="color:#C08B6F">Hero</span><span style="color:#94A3B8">();</span>
+      </div>
+    </div>
+    <div class="tc-footer">
+      <div><div class="tc-title">Plum + Sharp Text <span style="color:#B98BD9;font-size:0.75rem">← Recommended</span></div><div class="tc-sub">Plum colors + neutral crisp text/muted</div></div>
+      <button class="tc-btn" data-pick="palette">Select</button>
+    </div>
+  </div>
+
+  <!-- Card C: Sapphire for comparison -->
+  <div class="text-card" data-palette="sapphire" data-palette-name="Cyber Sapphire">
+    <div class="chosen-badge">✓ Chosen</div>
+    <div class="tc-preview" style="background:#0B0F19;position:relative">
+      <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:#6366F1;opacity:0.15;filter:blur(35px)"></div>
+      <div class="tc-label" style="color:#22D3EE">// Cyber Sapphire (ref)</div>
+      <div class="tc-name" style="background:linear-gradient(135deg,#6366F1,#A855F7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Full-Stack Developer</div>
+      <div class="tc-body" style="color:#F8FAFC">Building beautiful web experiences with Next.js, React &amp; Node. Focused on performance and detail.</div>
+      <div class="tc-muted" style="color:#94A3B8">Same neutral slate muted — this is what you liked. Notice: text color is identical to Option B above.</div>
+      <div class="tc-pills">
+        <span class="tc-pill" style="background:rgba(99,102,241,0.2);color:#6366F1;border:1px solid rgba(99,102,241,0.3)">TypeScript</span>
+        <span class="tc-pill" style="background:rgba(168,85,247,0.15);color:#A855F7;border:1px solid rgba(168,85,247,0.3)">React</span>
+        <span class="tc-pill" style="background:rgba(34,211,238,0.12);color:#22D3EE;border:1px solid rgba(34,211,238,0.3)">Next.js</span>
+      </div>
+      <div class="tc-code-block" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08)">
+        <span style="color:#A855F7">const</span> <span style="color:#F8FAFC">portfolio</span> <span style="color:#94A3B8">=</span> <span style="color:#6366F1">'nashrah.dev'</span><span style="color:#94A3B8">;</span><br/>
+        <span style="color:#A855F7">export</span> <span style="color:#94A3B8">default</span> <span style="color:#22D3EE">Hero</span><span style="color:#94A3B8">();</span>
+      </div>
+    </div>
+    <div class="tc-footer">
+      <div><div class="tc-title">Cyber Sapphire</div><div class="tc-sub">Reference — you liked its text clarity</div></div>
+      <button class="tc-btn" data-pick="palette">Select</button>
+    </div>
+  </div>
+
 </div>
 
-<div class="palettes-grid" id="grid"></div>
+<!-- insight callout -->
+<div style="max-width:1300px;margin:1rem auto 0;padding:0.9rem 1.2rem;border-radius:12px;background:rgba(185,139,217,0.07);border:1px solid rgba(185,139,217,0.15);font-size:0.78rem;color:#9070b8;line-height:1.7">
+  💡 <strong style="color:#B98BD9">The insight:</strong> The text you liked in Sapphire is <code style="font-family:'JetBrains Mono',monospace;color:#94A3B8;background:rgba(148,163,184,0.1);padding:0.1rem 0.4rem;border-radius:4px">#F8FAFC</code> body + <code style="font-family:'JetBrains Mono',monospace;color:#94A3B8;background:rgba(148,163,184,0.1);padding:0.1rem 0.4rem;border-radius:4px">#94A3B8</code> muted — both neutral grays with zero purple tint. <strong style="color:#B98BD9">Option B above uses exactly those same values</strong> — just the accent colors stay Plum & Rose Gold.
+</div>
 
-<div class="apply-banner">
-  <p>Ready to apply? <span id="apply-text">No theme selected yet.</span></p>
-  <button class="apply-main-btn" id="apply-btn" disabled onclick="applyTheme()">Apply to Portfolio →</button>
+<!-- ══ STEP 2: UI Style ══ -->
+<div class="sec"><div class="sec-num">2</div><h2>UI Style — All Three Using Plum & Rose Gold</h2></div>
+
+<div class="style-compare-grid">
+
+  <!-- NEO -->
+  <div class="style-col" data-style-id="neo" data-style-name="Soft Neomorphism">
+    <div class="chosen-badge">✓ Chosen</div>
+    <div class="style-demo neo-bg">
+      <div class="neo-outer">
+        <div class="neo-top">
+          <div class="neo-logo">Nashrah.</div>
+          <div class="neo-dots-row">
+            <div class="neo-dot-sm" style="background:#8A6BC4"></div>
+            <div class="neo-dot-sm" style="background:#C97B96"></div>
+            <div class="neo-dot-sm" style="background:#C08B6F"></div>
+          </div>
+        </div>
+        <div class="neo-headline">I build <span class="neo-hl">elegant</span><br/>digital things</div>
+        <div class="neo-body">Full-Stack Developer. High performance. Beautiful interfaces.</div>
+        <div class="neo-btn-row">
+          <button class="neo-btn-filled">View Work</button>
+          <button class="neo-btn">Contact</button>
+        </div>
+        <div class="neo-pills-row">
+          <span class="neo-pill">React</span>
+          <span class="neo-pill">Next.js</span>
+          <span class="neo-pill">TypeScript</span>
+        </div>
+        <div class="neo-card-row">
+          <div class="neo-mini"><div class="neo-mini-val" style="color:#8A6BC4">24+</div><div class="neo-mini-lbl">Projects</div></div>
+          <div class="neo-mini"><div class="neo-mini-val" style="color:#C97B96">3yr</div><div class="neo-mini-lbl">Experience</div></div>
+          <div class="neo-mini"><div class="neo-mini-val" style="color:#C08B6F">1.2k</div><div class="neo-mini-lbl">Stars</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="style-props">
+      <span class="prop-tag">Light & soft</span>
+      <span class="prop-tag">Tactile depth</span>
+      <span class="prop-tag">Calm & premium</span>
+      <span class="prop-tag">Unique</span>
+    </div>
+    <div class="style-footer">
+      <div><div class="style-title">Soft Neomorphism</div><div class="style-sub">Your #1 preference — tactile, soft, premium</div></div>
+      <button class="style-btn">Select</button>
+    </div>
+  </div>
+
+  <!-- BOLD GRADIENT -->
+  <div class="style-col" data-style-id="bold" data-style-name="Bold & Gradient">
+    <div class="chosen-badge">✓ Chosen</div>
+    <div class="style-demo bold-bg">
+      <div class="bold-glow-1"></div>
+      <div class="bold-glow-2"></div>
+      <div class="bold-glow-3"></div>
+      <div class="bold-content">
+        <div class="bold-eyebrow">// Full-Stack Developer</div>
+        <div class="bold-h">Crafting the<br/>Web's Future</div>
+        <div class="bold-p">Dark, immersive, premium. Every pixel intentional.</div>
+        <div class="bold-btns">
+          <button class="bold-btn-main">View Work →</button>
+          <button class="bold-btn-ghost">Contact Me</button>
+        </div>
+        <div class="bold-pills-row">
+          <span class="bold-pill" style="background:rgba(139,58,92,0.2);color:#C97B96;border:1px solid rgba(201,123,150,0.25)">React</span>
+          <span class="bold-pill" style="background:rgba(185,139,217,0.15);color:#B98BD9;border:1px solid rgba(185,139,217,0.25)">Next.js</span>
+          <span class="bold-pill" style="background:rgba(192,139,111,0.15);color:#C08B6F;border:1px solid rgba(192,139,111,0.25)">TypeScript</span>
+        </div>
+        <div class="bold-cards">
+          <div class="bold-card"><div class="bold-card-val" style="color:#C97B96">24+</div><div class="bold-card-lbl">Projects</div></div>
+          <div class="bold-card"><div class="bold-card-val" style="color:#B98BD9">3yr</div><div class="bold-card-lbl">Experience</div></div>
+          <div class="bold-card"><div class="bold-card-val" style="color:#C08B6F">1.2k</div><div class="bold-card-lbl">Stars</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="style-props">
+      <span class="prop-tag">Dark mode</span>
+      <span class="prop-tag">Vivid glows</span>
+      <span class="prop-tag">High energy</span>
+      <span class="prop-tag">Editorial</span>
+    </div>
+    <div class="style-footer">
+      <div><div class="style-title">Bold & Gradient</div><div class="style-sub">Your #2 preference — dramatic, vivid</div></div>
+      <button class="style-btn">Select</button>
+    </div>
+  </div>
+
+  <!-- GLASS -->
+  <div class="style-col" data-style-id="glass" data-style-name="Glassmorphism">
+    <div class="chosen-badge">✓ Chosen</div>
+    <div class="style-demo glass-bg">
+      <div class="glass-orb1"></div>
+      <div class="glass-orb2"></div>
+      <div class="glass-orb3"></div>
+      <div class="glass-content">
+        <div class="glass-panel">
+          <div class="glass-panel-top">
+            <div class="glass-logo">Nashrah.</div>
+            <div class="glass-status">● Open to work</div>
+          </div>
+          <div class="glass-h">Building <span>Beautiful</span><br/>Experiences</div>
+          <div class="glass-p">Full-Stack Developer. Frosted glass meets modern craft.</div>
+          <div class="glass-btns">
+            <div class="glass-btn-main">View Work</div>
+            <div class="glass-btn-ghost">About Me</div>
+          </div>
+        </div>
+        <div class="glass-mini-row">
+          <div class="glass-mini"><div class="glass-mini-val" style="color:#C97B96">24+</div><div class="glass-mini-lbl">Projects</div></div>
+          <div class="glass-mini"><div class="glass-mini-val" style="color:#B98BD9">3yr</div><div class="glass-mini-lbl">Experience</div></div>
+          <div class="glass-mini"><div class="glass-mini-val" style="color:#C08B6F">1.2k</div><div class="glass-mini-lbl">GitHub ★</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="style-props">
+      <span class="prop-tag">Frosted blur</span>
+      <span class="prop-tag">Layered depth</span>
+      <span class="prop-tag">Moody dark</span>
+      <span class="prop-tag">Luxe</span>
+    </div>
+    <div class="style-footer">
+      <div><div class="style-title">Glassmorphism</div><div class="style-sub">Your #3 preference — frosted, moody</div></div>
+      <button class="style-btn">Select</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ RESULT ══ -->
+<div class="result-area">
+  <div class="result-box">
+    <h3>Your Confirmed Direction</h3>
+    <p>Select one from each row above, then confirm.</p>
+    <div class="picks-row">
+      <div class="pick-chip" id="pick-palette-chip"><div class="pick-dot" id="pick-palette-dot"></div><span id="pick-palette-text">No palette picked</span></div>
+      <div style="color:#333;align-self:center;font-size:0.8rem">+</div>
+      <div class="pick-chip" id="pick-style-chip"><div class="pick-dot" id="pick-style-dot"></div><span id="pick-style-text">No style picked</span></div>
+    </div>
+    <button class="confirm-btn" id="confirm-btn" disabled>Confirm →</button>
+    <div class="output-box" id="output-box"></div>
+  </div>
 </div>
 
 <script>
-const THEMES = [
-  {
-    id: 'plum',
-    name: 'Plum & Rose Gold',
-    tag: 'Warm Editorial Luxury',
-    badge: 'Current Theme',
-    dark: {
-      bg: '#100B18', surface: '#1C1526', card: '#251A32',
-      primary: '#8B3A5C', secondary: '#B98BD9', accent: '#C08B6F',
-      text: '#F5F1F7', muted: '#B3A8C2',
-    },
-    light: {
-      bg: '#FBF8FF', surface: '#FFFFFF', card: '#F4EEFB',
-      primary: '#8A6BC4', secondary: '#C97B96', accent: '#C08B6F',
-      text: '#241A2E', muted: '#756B87',
-    },
-    gradient: 'linear-gradient(135deg, #8B3A5C, #B98BD9)',
-    gradientLight: 'linear-gradient(135deg, #8A6BC4, #C97B96)',
-  },
-  {
-    id: 'sapphire',
-    name: 'Cyber Sapphire & Violet',
-    tag: 'Modern Tech & AI',
-    dark: {
-      bg: '#0B0F19', surface: '#151C2C', card: '#1E293B',
-      primary: '#6366F1', secondary: '#A855F7', accent: '#22D3EE',
-      text: '#F8FAFC', muted: '#94A3B8',
-    },
-    light: {
-      bg: '#F4F7FB', surface: '#FFFFFF', card: '#EBF1FA',
-      primary: '#2563EB', secondary: '#7C3AED', accent: '#06B6D4',
-      text: '#0F172A', muted: '#64748B',
-    },
-    gradient: 'linear-gradient(135deg, #6366F1, #A855F7)',
-    gradientLight: 'linear-gradient(135deg, #2563EB, #7C3AED)',
-  },
-  {
-    id: 'emerald',
-    name: 'Emerald Aurora & Gold',
-    tag: 'Organic Luxury & Calm',
-    dark: {
-      bg: '#0A1410', surface: '#13221C', card: '#1B2E26',
-      primary: '#10B981', secondary: '#6EE7B7', accent: '#F59E0B',
-      text: '#F0F7F3', muted: '#9BB3A4',
-    },
-    light: {
-      bg: '#F5F7F4', surface: '#FFFFFF', card: '#E8EFE9',
-      primary: '#15803D', secondary: '#34D399', accent: '#D97706',
-      text: '#111A15', muted: '#57695D',
-    },
-    gradient: 'linear-gradient(135deg, #10B981, #F59E0B)',
-    gradientLight: 'linear-gradient(135deg, #15803D, #D97706)',
-  },
-  {
-    id: 'obsidian',
-    name: 'Obsidian & Sunset Coral',
-    tag: 'Bold Minimalist',
-    dark: {
-      bg: '#09090B', surface: '#18181B', card: '#27272A',
-      primary: '#FF6B6B', secondary: '#FF9E7D', accent: '#FFC107',
-      text: '#FAFAFA', muted: '#A1A1AA',
-    },
-    light: {
-      bg: '#FAFAFA', surface: '#FFFFFF', card: '#F1F5F9',
-      primary: '#1E293B', secondary: '#F97316', accent: '#F59E0B',
-      text: '#020617', muted: '#64748B',
-    },
-    gradient: 'linear-gradient(135deg, #FF6B6B, #FFC107)',
-    gradientLight: 'linear-gradient(135deg, #1E293B, #F97316)',
+(function () {
+  'use strict';
+
+  var PALETTE_DOTS = {
+    'plum-original': '#B98BD9',
+    'plum-sharp':    '#C97B96',
+    'sapphire':      '#6366F1'
+  };
+  var STYLE_DOTS = { neo: '#8A6BC4', bold: '#C97B96', glass: '#B98BD9' };
+
+  var chosenPaletteId   = null;
+  var chosenPaletteName = null;
+  var chosenStyleId     = null;
+  var chosenStyleName   = null;
+
+  function q(id) { return document.getElementById(id); }
+  function qsa(s) { return Array.prototype.slice.call(document.querySelectorAll(s)); }
+
+  /* ── Palette cards ── */
+  qsa('.text-card').forEach(function (card) {
+    var pid   = card.dataset.palette;
+    var pname = card.dataset.paletteName;
+    var btn   = card.querySelector('.tc-btn');
+
+    function pick() {
+      chosenPaletteId   = pid;
+      chosenPaletteName = pname;
+      qsa('.text-card').forEach(function (c) {
+        c.classList.remove('chosen');
+        c.querySelector('.tc-btn').textContent = 'Select';
+      });
+      card.classList.add('chosen');
+      btn.textContent = '✓ Chosen';
+      updateSummary();
+    }
+
+    card.addEventListener('click', pick);
+    btn.addEventListener('click', function (e) { e.stopPropagation(); pick(); });
+  });
+
+  /* ── Style cards ── */
+  qsa('.style-col').forEach(function (card) {
+    var sid   = card.dataset.styleId;
+    var sname = card.dataset.styleName;
+    var btn   = card.querySelector('.style-btn');
+
+    function pick() {
+      chosenStyleId   = sid;
+      chosenStyleName = sname;
+      qsa('.style-col').forEach(function (c) {
+        c.classList.remove('chosen');
+        c.querySelector('.style-btn').textContent = 'Select';
+      });
+      card.classList.add('chosen');
+      btn.textContent = '✓ Chosen';
+      updateSummary();
+    }
+
+    card.addEventListener('click', pick);
+    btn.addEventListener('click', function (e) { e.stopPropagation(); pick(); });
+  });
+
+  /* ── Summary update ── */
+  function updateSummary() {
+    if (chosenPaletteId) {
+      var pc = q('pick-palette-chip');
+      pc.classList.add('filled');
+      q('pick-palette-dot').style.background = PALETTE_DOTS[chosenPaletteId];
+      q('pick-palette-text').textContent = chosenPaletteName;
+    }
+    if (chosenStyleId) {
+      var sc = q('pick-style-chip');
+      sc.classList.add('filled');
+      q('pick-style-dot').style.background = STYLE_DOTS[chosenStyleId];
+      q('pick-style-text').textContent = chosenStyleName;
+    }
+    q('confirm-btn').disabled = !(chosenPaletteId && chosenStyleId);
   }
-];
 
-let currentMode = 'dark';
-let selectedId = null;
+  /* ── Confirm ── */
+  q('confirm-btn').addEventListener('click', function () {
+    if (!chosenPaletteId || !chosenStyleId) return;
 
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('btn-dark').classList.toggle('active', mode === 'dark');
-  document.getElementById('btn-light').classList.toggle('active', mode === 'light');
-  renderGrid();
-}
+    var CSS_SNIPPETS = {
+      'plum-original': '--text: #F5F1F7;\n  --muted: #B3A8C2;',
+      'plum-sharp':    '--text: #F8FAFC;\n  --muted: #94A3B8;',
+      'sapphire':      '--text: #F8FAFC;\n  --muted: #94A3B8;'
+    };
 
-function selectTheme(id) {
-  selectedId = id;
-  renderGrid();
-  const t = THEMES.find(t => t.id === id);
-  document.getElementById('apply-text').textContent = `"${t.name}" selected.`;
-  document.getElementById('apply-btn').disabled = false;
-}
+    var ob = q('output-box');
+    ob.innerHTML =
+      '<strong>✅ Your final direction:</strong><br/><br/>' +
+      '🎨 <strong>Palette:</strong> ' + chosenPaletteName + '<br/>' +
+      '🖼 <strong>UI Style:</strong> ' + chosenStyleName + '<br/><br/>' +
+      (chosenPaletteId === 'plum-sharp'
+        ? '💡 <strong>Text upgrade applied:</strong> <code>#F8FAFC</code> body text + <code>#94A3B8</code> muted — same crispness as Sapphire, full Plum palette.<br/><br/>'
+        : '') +
+      '<strong>Tell Antigravity:</strong><br/>' +
+      '"Apply <strong>' + chosenPaletteName + '</strong> palette with <strong>' + chosenStyleName + '</strong> UI style to my portfolio."';
+    ob.classList.add('show');
+    ob.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
 
-function applyTheme() {
-  if (!selectedId) return;
-  const t = THEMES.find(t => t.id === selectedId);
-  const msg = `You chose: ${t.name}. Copy the CSS variables from the color card and paste into globals.css!`;
-  alert(msg);
-}
-
-function hex(c) { return `<span style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:#666">${c}</span>`; }
-
-function renderGrid() {
-  const grid = document.getElementById('grid');
-  grid.innerHTML = THEMES.map(t => {
-    const c = currentMode === 'dark' ? t.dark : t.light;
-    const grad = currentMode === 'dark' ? t.gradient : t.gradientLight;
-    const isSelected = selectedId === t.id;
-    const isDarkMode = currentMode === 'dark';
-
-    const textColor = c.text;
-    const mutedColor = c.muted;
-
-    const swatchItems = [
-      { label: 'Background', hex: c.bg },
-      { label: 'Surface', hex: c.surface },
-      { label: 'Card', hex: c.card },
-      { label: 'Primary', hex: c.primary },
-      { label: 'Secondary', hex: c.secondary },
-      { label: 'Accent', hex: c.accent },
-      { label: 'Text', hex: c.text },
-      { label: 'Muted', hex: c.muted },
-    ];
-
-    const swatchsHtml = swatchItems.map(s =>
-      `<div title="${s.label}: ${s.hex}" class="swatch" style="background:${s.hex}; outline: 1px solid rgba(${isDarkMode?'255,255,255':'0,0,0'},0.12); outline-offset:-1px"></div>`
-    ).join('');
-
-    const pillColors = [c.primary, c.secondary, c.accent];
-    const pillLabels = ['React', 'Next.js', 'TypeScript', 'Node'];
-
-    return `
-    <div class="palette-card ${isSelected ? 'selected' : ''}" onclick="selectTheme('${t.id}')">
-
-      <!-- UI Mockup -->
-      <div class="mockup" style="background:${c.bg}; color:${c.text}">
-        <!-- Decorative blob -->
-        <div style="position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:${c.primary};opacity:0.12;filter:blur(30px);pointer-events:none"></div>
-        <div style="position:absolute;bottom:-30px;left:-30px;width:100px;height:100px;border-radius:50%;background:${c.secondary};opacity:0.10;filter:blur(25px);pointer-events:none"></div>
-
-        <div class="mockup-nav">
-          <div class="mockup-logo" style="background:${grad};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">
-            Nashrah.
-          </div>
-          <div class="mockup-nav-links" style="color:${c.muted}">
-            <span>Work</span><span>About</span><span>Contact</span>
-          </div>
-        </div>
-
-        <div class="mockup-hero">
-          <h2 style="color:${c.text}">Full-Stack<br/><span style="background:${grad};-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Developer</span></h2>
-          <p style="color:${c.muted}">Crafting beautiful, high-performance digital experiences with modern tech.</p>
-        </div>
-
-        <div class="mockup-btns">
-          <button class="mockup-btn-primary" style="background:${c.primary};color:#fff">View Work</button>
-          <button class="mockup-btn-outline" style="border-color:${c.primary};color:${c.primary}">Contact Me</button>
-        </div>
-
-        <div class="mockup-pills">
-          ${pillLabels.map((l, i) => `<span class="mockup-pill" style="background:${pillColors[i % 3]}22;color:${pillColors[i % 3]};border:1px solid ${pillColors[i % 3]}44">${l}</span>`).join('')}
-          <span class="mockup-pill" style="background:${c.card};color:${c.muted};border:1px solid ${c.muted}33">+12 more</span>
-        </div>
-
-        <div class="mockup-card-row">
-          <div class="mockup-mini-card" style="background:${c.card};border:1px solid ${c.primary}22">
-            <div class="label" style="color:${c.muted}">Projects</div>
-            <div class="val" style="color:${c.primary}">24+</div>
-          </div>
-          <div class="mockup-mini-card" style="background:${c.card};border:1px solid ${c.secondary}22">
-            <div class="label" style="color:${c.muted}">GitHub Stars</div>
-            <div class="val" style="color:${c.secondary}">1.2k</div>
-          </div>
-          <div class="mockup-mini-card" style="background:${c.card};border:1px solid ${c.accent}22">
-            <div class="label" style="color:${c.muted}">Experience</div>
-            <div class="val" style="color:${c.accent}">3 yrs</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Swatches -->
-      <div class="swatches-section">
-        <div class="swatches-label">Color Tokens</div>
-        <div class="swatches-row" style="gap:0.35rem;flex-wrap:wrap">
-          ${swatchsHtml}
-        </div>
-
-        <!-- Labels below swatches -->
-        <div style="display:flex;gap:0.35rem;flex-wrap:wrap;margin-top:0.35rem;">
-          ${swatchItems.map(s => `
-            <div style="width:36px;text-align:center;flex-shrink:0">
-              <div style="font-size:0.52rem;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${s.label}</div>
-            </div>
-          `).join('')}
-        </div>
-
-        <hr class="swatches-divider" style="margin-top:0.8rem" />
-
-        <!-- Gradient strip -->
-        <div style="margin: 0.5rem 0 0.8rem;height:6px;border-radius:999px;background:${grad};opacity:0.8"></div>
-
-        <!-- CSS Snippet -->
-        <div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:0.6rem 0.8rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:#777;line-height:1.8;overflow:hidden;max-height:80px">
-          <span style="color:#888">--primary:</span> <span style="color:${c.primary}">${c.primary}</span>;<br/>
-          <span style="color:#888">--secondary:</span> <span style="color:${c.secondary}">${c.secondary}</span>;<br/>
-          <span style="color:#888">--accent:</span> <span style="color:${c.accent}">${c.accent}</span>;
-        </div>
-      </div>
-
-      <div class="type-row">
-        <span class="type-chip">Fraunces Serif</span>
-        <span class="type-chip">Inter Sans</span>
-        <span class="type-chip">Mono: JetBrains</span>
-      </div>
-
-      <div class="card-footer">
-        <div>
-          <div class="card-title">${t.name} ${t.badge ? `<span style="font-size:0.6rem;color:#666;font-weight:400">(${t.badge})</span>` : ''}</div>
-          <div class="card-tag">${t.tag}</div>
-        </div>
-        <button class="select-btn" onclick="event.stopPropagation();selectTheme('${t.id}')">
-          ${isSelected ? '✓ Selected' : 'Select →'}
-        </button>
-      </div>
-    </div>
-    `;
-  }).join('');
-}
-
-renderGrid();
+})();
 </script>
 </body>
 </html>
