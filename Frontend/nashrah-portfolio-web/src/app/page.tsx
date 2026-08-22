@@ -7,7 +7,6 @@ import ExperienceSection from "@/components/sections/ExperienceSection";
 export default function Home() {
   return (
     <main>
-      <Navbar />
       <HeroSection />
       <SkillsSection />
       <FeaturedProjectsSection />
