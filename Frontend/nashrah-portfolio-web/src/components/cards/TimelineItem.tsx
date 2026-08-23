@@ -14,54 +14,53 @@ export default function TimelineItem({
   iscurrent = false,
 }: TimelineItemProps) {
   return (
-    <div className="flex gap-8">
+    <div className="flex gap-6">
 
       {/* Timeline Column */}
 
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center pt-1">
 
         <div
-          className="
-          h-5
-          w-5
-          rounded-full
-          border-2
-          border-[#9882B9]
-            bg-[#722548]
-            shadow-[0_0_20px_rgba(152,130,185,0.8)]
-          "
+          className="h-4 w-4 flex-shrink-0 rounded-full border-2 shadow-lg"
+          style={{
+            borderColor:  "var(--secondary)" ,
+            backgroundColor: "var(--primary)" ,
+            boxShadow: "0 0 14px var(--glow-1)" ,
+          }}
         />
 
-        <div className="mt-2 h-full w-px bg-zinc-700" />
+        <div className="mt-2 h-full w-px"
+            style={{
+                backgroundColor: "var(--border)",
+            }}
+         />
 
       </div>
 
       {/* Content Column */}
 
-      <div className="pb-16">
+      <div className="pb-12">
 
-        <p className="mb-2 text-sm text-zinc-400">
+        <p className="mb-1 text-sm font-semibold uppercase tracking-wide"
+        style={{ color: "var(--accent)" }}>
           {year}
         </p>
 
-        <div className="mb-3 flex items-center gap-3">
+        <div className="mb-1 flex flex-wrap items-center gap-3">
 
-          <h3 className="text-3xl font-semibold">
+          <h3 className="text-2xl font-semibold"
+          style={{ color: "var(--text)" }}>
             {title}
           </h3>
 
           {iscurrent && (
             <span
-              className="
-              rounded-full
-              border
-              border-green-500/30
-              bg-green-500/10
-              px-3
-              py-1
-              text-xs
-              text-green-400
-              "
+              className="rounded-full px-3 py-0.5 text-xs font-bold"
+              style={{
+                background: "color-mix(in srgb, var(--secondary) 15%, transparent)",
+                border: "1px solid color-mix(in srgb, var(--secondary) 40%, transparent)",
+                color: "var(--secondary)",
+              }}
             >
               Current
             </span>
@@ -69,11 +68,11 @@ export default function TimelineItem({
 
         </div>
 
-        <p className="mb-4 text-lg text-blue-400">
+        <p className="mb-3 font-medium gradient-text text-sm">
           {company}
         </p>
 
-        <p className="max-w-3xl text-zinc-400">
+        <p className="max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
           {description}
         </p>
 
