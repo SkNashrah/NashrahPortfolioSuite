@@ -1,65 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useTheme } from "@/lib/ThemeContext";
 
 export default function ThemeToggle() {
-  const [isDark, setIsDark] = useState(() => {
-    if (typeof window !== "undefined") {
-        return localStorage.getItem("theme") === "dark";
-    }
+  const {mode, toggleMode} = useTheme();
+  const isDark = mode === "dark";
 
-    return false;
-});
-
-  useEffect(() => {
-    if (isDark) {
-        document.documentElement.classList.add(
-        "dark"
-        );
-    } else {
-        document.documentElement.classList.remove(
-        "dark"
-        );
-    }
-   }, [isDark]);
-
-  
-
-  const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove(
-        "dark"
-      );
-
-      localStorage.setItem(
-        "theme",
-        "light"
-      );
-    } else {
-      document.documentElement.classList.add(
-        "dark"
-      );
-
-      localStorage.setItem(
-        "theme",
-        "dark"
-      );
-    }
-
-    setIsDark(!isDark);
-  };
-
-  return (
+  return(
     <button
-      onClick={toggleTheme}
-      className="
-      rounded-full
-      border
-      px-4
-      py-2
-      "
-    >
-      {isDark ? "🌙" : "☀️"}
-    </button>
+      onClick = {toggleMode}
+      className="flex items-center justify-center rounded-full border px-3 py-1.5 text-xs transition hover:opacity-80"
+      style={{
+        borderColor: "var(--border)",
+        backgroundColor: "var(--surface)",
+        color: "var(--text)",
+      }}
+      title={'switch to ${isDark ? "Light" : "Dark"} mode'}
+      >
+        {isDark ? "🌙" : "☀️"}
+      </button>
   );
 }
