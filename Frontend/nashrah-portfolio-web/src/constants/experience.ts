@@ -16,7 +16,7 @@ export const experiences = [
   },
 
   {
-    year: "2024 - Present",
+    year: "2024 - 2025",
     title: "Application Development Journey",
     company: "Personal Projects",
     description:
