@@ -1,25 +1,41 @@
-export const theme = {
-  dark: {
-    background: "#0F1021",
-    surface: "#18192E",
-    card: "#20223B",
+export type ThemeId = "plum" | "sapphire" | "emerald" | "obsidian" ;
+export type ThemeMode = "dark" | "light";
 
-    primary: "#7C6CF3",
-    secondary: "#D16BA5",
+export interface ThemeOptions{
+  id: ThemeId;
+  name: string;
+  tag: string;
+  primaryColor: string;
+  gradient: string; 
+}
 
-    text: "#F5F3FF",
-    muted: "#A5A3B8",
+export const THEMES: ThemeOptions[] = [
+  {
+    id: "plum",
+    name: "Plum & Rose Gold",
+    tag: "Warm Editorial Luxury",
+    primaryColor: "#8B3A5C",
+    gradient: "linear-gradient(135deg, #8B3A5C, #B98BD9)",
   },
-
-  light: {
-    background: "#F8F5FF",
-    surface: "#FFFFFF",
-    card: "#EFE9FC",
-
-    primary: "#6958E8",
-    secondary: "#C85C9E",
-
-    text: "#1A1830",
-    muted: "#625F78",
+  {
+    id: "sapphire",
+    name: "Cyber Sapphire & Violet",
+    tag: "Modern Tech & AI",
+    primaryColor: "#6366F1",
+    gradient: "linear-gradient(135deg, #6366F1, #A855F7)",
   },
-};
+  {
+    id: "emerald",
+    name: "Emerald Aurora & Gold",
+    tag: "Organic Luxury & Calm",
+    primaryColor: "#10B981",
+    gradient: "linear-gradient(135deg, #10B981, #F59E0B)",
+  },
+  {
+    id: "obsidian",
+    name: "Obsidian & Sunset Coral",
+    tag: "Bold Minimalist",
+    primaryColor: "#FF6B6B",
+    gradient: "linear-gradient(135deg, #FF6B6B, #FFC107)",
+  },
+]
