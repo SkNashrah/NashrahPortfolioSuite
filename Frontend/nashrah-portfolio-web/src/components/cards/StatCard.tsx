@@ -5,11 +5,11 @@ type StatCardProps = {
 
 export default function StatCard({ value, title }: StatCardProps) {
     return(
-        <div className="rounded-xl bg-surface p-6 shadow-card">
-            <h3 className="text-3xl font-bold" style={{ color: "var(--text)" }}>
+        <div className="glass-card rounded-2xl p-5 text-center">
+            <p className="mb-0.5 text-2xl font-bold gradient-text">
                 {value}
-            </h3>
-            <p style={{ color: "var(--muted)" }}>
+            </p>
+            <p className="text-xs font-medium" style={{ color: "var(--muted)" }}>
                 {title}
             </p>
         </div>
