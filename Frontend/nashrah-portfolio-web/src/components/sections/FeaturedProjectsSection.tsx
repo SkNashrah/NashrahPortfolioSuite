@@ -10,26 +10,29 @@ export default function FeaturedProjectsSection() {
     <section className="px-8 py-24">
 
       <div className="mx-auto max-w-7xl">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--accent)" }}>
+          My work
+        </p>
 
-        <h2 className="mb-12 text-4xl font-bold">
+        <h2 className="mb-12 font-serif text-4xl font-bold gradient-text" >
           Featured Projects
         </h2>
 
         {/* AVR */}
 
-        <div className="mb-10 rounded-3xl bg-surface p-8 shadow-card">
+        <div className="glass-card mb-10 rounded-3xl p-8">
           <div
-            className="mb-6 flex h-72 items-center justify-center rounded-xl text-2xl"
-            style={{ backgroundColor: "var(--card)", color: "var(--muted)" }}
+            className="mb-6 flex h-64 items-center justify-center rounded-2xl text-sm font-medium"
+            style={{ backgroundColor: "var(--background)", color: "var(--muted)" }}
           >
-            AVR Screenshot
+            Project Screenshot
           </div>
 
-          <h3 className="mb-4 text-3xl font-bold" style={{ color: "var(--text)" }}>
+          <h3 className="mb-3 font-serif text-3xl font-bold gradient-text" >
             {featured.title}
           </h3>
 
-          <p className="mb-6" style={{ color: "var(--muted)" }}>
+          <p className="mb-6 leading-relaxed" style={{ color: "var(--muted)" }}>
             {featured.description}
           </p>
 
@@ -38,10 +41,10 @@ export default function FeaturedProjectsSection() {
             {featured.technologies.map((tech) => (
               <span
                 key={tech}
-                className="rounded-full border px-3 py-1"
+                className="rounded-full  px-3 py-1 text-sm font-medium"
                 style={{
-                  borderColor: "color-mix(in srgb, var(--primary) 40%, transparent)",
-                  backgroundColor: "color-mix(in srgb, var(--primary) 10%, transparent)",
+                  background: "color-mix(in srgb, var(--primary) 12%, transparent)",
+                  border: "1px solid color-mix(in srgb, var(--primary) 35%, transparent)",
                   color: "var(--primary)",
                 }}
               >
